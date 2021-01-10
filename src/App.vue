@@ -1,81 +1,28 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <div id="nav"><router-link to="/">Home</router-link></div>
+
+  <button @click="redirect">Redirect</button>
+  <button @click="back">Go Back</button>
+  <button @click="forward">Go forward</button>
+
   <router-view />
-  <div id="app">
-    <div v-if="isPending">loading...</div>
-    <div v-else-if="data">{{ data }}</div>
-    <div v-if="error">404</div>
-  </div>
+  <div id="app"></div>
 </template>
 
 <script>
-import { defineComponent, ref, watchEffect } from 'vue';
-import HomeVue from './views/Home.vue';
-
-// const Component = defineComponent({
-//   components: {
-//     SearchBar,
-//   }
-// )},
-
-const { createApp } = HomeVue;
-
-function useFetch(getUrl) {
-  const data = ref(null);
-  const error = ref(null);
-  const isPending = ref(true);
-
-  watchEffect(() => {
-    isPending.value = true;
-    data.value = null;
-    error.value = null;
-
-    fetch(getUrl)
-      .then((res) => res.json())
-      .then((_data) => {
-        data.value = _data;
-        isPending.value = false;
-      })
-      .catch((err) => {
-        error.value = err;
-        isPending.value = false;
-      });
-    console.log = '_data';
-  });
-
-  return {
-    data,
-    error,
-    isPending,
-  };
-}
-
-const Data = {
-  setup(props) {
-    const { data, error, isPending } = useFetch(
-      () => `https://jobs.github.com/positions.json?description=python&full_time=true&location=sf'${props.id}`,
-    );
-
-    return {
-      data,
-      error,
-      isPending,
-    };
+export default {
+  methods: {
+    redirect() {
+      this.$router.push({ name: 'Home' });
+    },
+    back() {
+      this.$router.go(-1);
+    },
+    forward() {
+      this.$router.go(1);
+    },
   },
 };
-const App = {
-  components: { Data },
-  data() {
-    return {
-      id: 1,
-    };
-  },
-  template: '<Data: id = "id"/>',
-};
-export default {};
 </script>
 
 <style lang="scss">
