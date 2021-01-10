@@ -13,12 +13,50 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue';
+import axios from 'axios';
 import SearchBar from '../components/SearchBar.vue';
 
-export default {
+// type Data = {
+//   id: string;
+//   type: string;
+//   url: string;
+//   created_at: string;
+//   company: string;
+//   company_url: string;
+//   location: string;
+//   title: string;
+//   description: string;
+//   company_logo: string;
+// };
+
+const Home = defineComponent({
   name: 'Home',
-  components: {},
-};
+
+  data() {
+    return {
+      data: [],
+    };
+  },
+
+  components: {
+    SearchBar,
+  },
+
+  methods: {},
+
+  mounted() {
+    // const accessPoint = 'https://cors-anywhere.herokuapp.com';
+    // // const url = 'https://jobs.github.com/positions.json';
+    // return axios.get(`${accessPoint}/https://jobs.github.com/positions.json?`);
+    axios.get('https://raw.githubusercontent.com/mart-j/jobs/main/positions.json').then((response) => {
+      console.log(response);
+      return response;
+    });
+  },
+});
+
+export default Home;
 </script>
 
 <style lang="scss" scoped>
