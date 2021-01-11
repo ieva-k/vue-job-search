@@ -1,9 +1,9 @@
 <template>
-  <div id="nav"><router-link to="/">Home</router-link></div>
+  <div id="nav"><router-link to="/">Github Jobs</router-link></div>
 
-  <button @click="redirect">Redirect</button>
+  <!-- <button @click="redirect">Redirect</button>
   <button @click="back">Go Back</button>
-  <button @click="forward">Go forward</button>
+  <button @click="forward">Go forward</button> -->
 
   <router-view />
   <div id="app"></div>
@@ -32,6 +32,7 @@ export default {
   a {
     font-weight: bold;
     color: #2c3e50;
+    text-decoration: none;
 
     &.router-link-exact-active {
       color: #42b983;

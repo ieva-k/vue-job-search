@@ -1,5 +1,5 @@
 <template>
-  <div class="searchBar">
+  <div>
     <input
       class="input"
       type="text"
@@ -7,6 +7,7 @@
       placeholder="Title, companies, expertise or benefits"
       :model="inputValue"
       @input="$emit('inputValue', $event.target.value)"
+      @keyup.enter="inputValue"
     />
   </div>
 </template>
@@ -27,14 +28,10 @@ export default Component;
 
 <style lang="scss" scoped>
 .input {
-  width: 790px;
-  height: 55px;
-  left: 325px;
-  top: 142px;
   padding: 10px;
   background-color: #ffffff;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  border: none;
   border-radius: 4px;
-  margin-bottom: 10px;
+  width: 100%;
 }
 </style>
