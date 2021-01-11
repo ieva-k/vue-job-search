@@ -1,6 +1,6 @@
 <template>
-  <label class="radioButton">
-    <input type="radio" />
+  <label class="checkbox">
+    <input type="checkbox" />
     {{ label }}
   </label>
 </template>
@@ -18,25 +18,10 @@ export default Component;
 
 <style lang="scss" scoped>
 .checkBox {
-  border: 1px solid #b9bdcf;
   border-radius: 2px;
   width: 18px;
   height: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
   transition: background-color 0.2s;
-
-  &:hover {
-    border: 1px solid #1e86ff;
-  }
-
-  &:active {
-    border: 1px solid #1e86ff;
-    background-color: #1e86ff;
-    width: 12px;
-    height: 12px;
-  }
 }
 </style>
