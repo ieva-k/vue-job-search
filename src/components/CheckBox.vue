@@ -1,5 +1,5 @@
 <template>
-  <label class="checkbox">
+  <label>
     <input type="checkbox" />
     {{ label }}
   </label>
@@ -15,13 +15,3 @@ const Component = defineComponent({
 });
 export default Component;
 </script>
-
-<style lang="scss" scoped>
-.checkBox {
-  border-radius: 2px;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-</style>

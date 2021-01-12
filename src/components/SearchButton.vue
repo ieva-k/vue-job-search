@@ -1,5 +1,5 @@
 <template>
-  <button class="button" @click="$emit('click')">
+  <button :class="$style.button">
     {{ label }}
   </button>
 </template>
@@ -11,30 +11,30 @@ const Component = defineComponent({
   props: {
     label: String,
   },
-  methods: {
-    click() {
-      console.log(111);
-    },
-  },
 });
 export default Component;
 </script>
 
-<style lang="scss" scoped>
+<style module lang="scss">
 .button {
-  font: Roboto;
+  font-family: 'Roboto', sans-serif;
   font-weight: 500;
   cursor: pointer;
   background-color: #1e86ff;
-  border-color: #1e86ff;
+  border: none;
   border-radius: 4px;
   color: white;
-  width: 146px;
-  height: 47px;
-  line-height: 18.75px;
+  height: 100%;
+  width: 100%;
+  max-width: 145px;
+  transition: 0.2s;
 
   &:hover {
     opacity: 0.5;
+  }
+
+  &:focus {
+    outline: none;
   }
 }
 </style>

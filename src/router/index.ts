@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import Home from '../views/Home.vue';
-import Job from '../views/Job.vue';
+import Home from '../pages/Home.vue';
+import Job from '../pages/Job.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {

@@ -19,8 +19,8 @@
         <div class="col-xs-12">
           <div class="img-wrapper">
             <div class="searchBar">
-              <i class="material-icons">work_outline</i>
-              <SearchInput class="input" />
+              <i class="material-icons icon">work_outline</i>
+              <SearchInput placeholder="Title, companies, expertise or benefits" />
               <SearchButton label="Search" />
             </div>
           </div>
@@ -34,18 +34,15 @@
           <div>
             <h4 class="locationHeading">LOCATION</h4>
             <div class="location">
-              <i class="material-icons">public</i>
-              <LocationInput class="input" />
+              <i class="material-icons icon">public</i>
+              <SearchInput placeholder="City, state, zip code or country" />
             </div>
           </div>
           <div class="listItems">
-            <RadioButton label="London" />
-            <br />
-            <RadioButton label="Amsterdam" />
-            <br />
-            <RadioButton label="New York" />
-            <br />
-            <RadioButton label="Berlin" />
+            <RadioButton label="London" name="location" />
+            <RadioButton label="Amsterdam" name="location" />
+            <RadioButton label="New York" name="location" />
+            <RadioButton label="Berlin" name="location" />
           </div>
         </div>
         <div class="col-xs-12 col-md-8">
@@ -74,7 +71,6 @@ import SearchInput from '../components/SearchInput.vue';
 import CheckBox from '../components/CheckBox.vue';
 import RadioButton from '../components/RadioButton.vue';
 import SearchButton from '../components/SearchButton.vue';
-import LocationInput from '../components/LocationInput.vue';
 
 type jobData = {
   id: string;
@@ -95,7 +91,6 @@ const Home = defineComponent({
     SearchButton,
     CheckBox,
     RadioButton,
-    LocationInput,
   },
 
   data() {
@@ -126,7 +121,7 @@ const Home = defineComponent({
     },
 
     pageContent(): jobData[] {
-      return this.locationSearch.filter((item, index: number) => {
+      return this.data.filter((item, index: number) => {
         if (index >= this.page && index < this.page + 5) {
           return item;
         }
@@ -142,6 +137,7 @@ const Home = defineComponent({
         this.data = response.data;
       })
       .catch((error) => {
+        console.log(error);
         this.errored = true;
       })
       .finally(() => {
@@ -151,6 +147,66 @@ const Home = defineComponent({
 });
 export default Home;
 </script>
+
 <style lang="scss" scoped>
-@import './Home.scss';
+.img-wrapper {
+  width: 100%;
+  height: 138px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 42px;
+  background-image: url('../assets/bg.png');
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchBar {
+  width: 70%;
+  height: 55px;
+  padding: 4px;
+  padding-left: 15px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.listItems {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  display: flex;
+  flex-direction: column;
+}
+
+.icon {
+    color:#cccccc;
+}
+
+.location {
+  height: 48px;
+  padding: 10px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.locationHeading {
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 21px;
+  text-transform: uppercase;
+  color: #b9bdcf;
+}
+
 </style>

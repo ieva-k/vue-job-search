@@ -85,19 +85,11 @@ const Job = defineComponent({
   methods: {},
 
   mounted() {
-    const accessPoint = 'https://cors-anywhere.herokuapp.com';
-    // // const url = 'https://jobs.github.com/positions.json';
-    // return axios.get(`${accessPoint}/https://jobs.github.com/positions.json?`);
     axios
-      // .get(`${accessPoint}/https://jobs.github.com/positions/${this.$route.params.id}.json?`)
-      // .get(`https://jobs.github.com/positions/${this.$route.params.id}.json?`)
       .get('https://raw.githubusercontent.com/mart-j/jobs/main/positions.json')
-
       .then((response) => {
         const filteredData = response.data.find((item: Data) => item.id === this.$route.params.id);
         this.data = filteredData;
-        // this.data = response.data;
-        // console.log(this.$route.params.id);
       })
       .catch((error) => {
         console.log(error);

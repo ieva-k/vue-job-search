@@ -1,15 +1,12 @@
 <template>
-  <div>
     <input
-      class="input"
+      :class="$style.input"
       type="text"
-      ref="search"
-      placeholder="Title, companies, expertise or benefits"
+      :placeholder="placeholder"
       :model="inputValue"
       @input="$emit('inputValue', $event.target.value)"
       @keyup.enter="inputValue"
     />
-  </div>
 </template>
 
 <script lang="ts">
@@ -21,14 +18,17 @@ const Component = defineComponent({
       type: String,
       required: true,
     },
+    placeholder: String,
   },
 });
 export default Component;
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" module>
+
 .input {
-  padding: 10px;
+  padding: 7px;
+  padding-left: 17px;
   background-color: #ffffff;
   border: none;
   border-radius: 4px;
