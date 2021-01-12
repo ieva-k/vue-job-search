@@ -20,7 +20,10 @@
           <div class="img-wrapper">
             <div class="searchBar">
               <i class="material-icons icon">work_outline</i>
-              <SearchInput placeholder="Title, companies, expertise or benefits" />
+              <SearchInput
+                placeholder="Title, companies, expertise or benefits"
+                v-model:inputValue="description"
+              />
               <SearchButton label="Search" />
             </div>
           </div>
@@ -29,25 +32,48 @@
       <div class="row">
         <div class="col-xs-12 col-md-4">
           <div class="listItems">
-            <CheckBox label="Full time" />
+            <CheckBox label="Full time" v-model:checkboxValue="isFullTime" />
           </div>
           <div>
             <h4 class="locationHeading">LOCATION</h4>
             <div class="location">
               <i class="material-icons icon">public</i>
-              <SearchInput placeholder="City, state, zip code or country" />
+              <SearchInput
+                placeholder="City, state, zip code or country"
+                v-model:inputValue="location"
+              />
             </div>
           </div>
           <div class="listItems">
-            <RadioButton label="London" name="location" />
-            <RadioButton label="Amsterdam" name="location" />
-            <RadioButton label="New York" name="location" />
-            <RadioButton label="Berlin" name="location" />
+            <RadioButton
+              value="amsterdam"
+              label="Amsterdam"
+              name="1"
+              @change="location = $event.target.value"
+            />
+            <RadioButton
+              value="munich"
+              label="Munich"
+              name="1"
+              @change="location = $event.target.value"
+            />
+            <RadioButton
+              value="berlin"
+              label="Berlin"
+              name="1"
+              @change="location = $event.target.value"
+            />
+            <RadioButton
+              value="portland"
+              label="Portland"
+              name="1"
+              @change="location = $event.target.value"
+            />
           </div>
         </div>
         <div class="col-xs-12 col-md-8">
           <JobCard
-            v-for="item in data"
+            v-for="item in pageContent"
             :key="item.id"
             :logo="item.company_logo"
             :jobTitle="item.title"
@@ -57,6 +83,17 @@
             :time="item.created_at"
             @click="$router.push({ path: `/job/${item.id}` })"
           />
+          <div class="pageControls">
+            <span>{{ currentPage(page) }} / {{ totalPageCount(jobSearchFiltered.length) }}</span>
+            <div class="controls">
+              <ControlButton v-if="page >= 5" @click="page -= 5" icon="navigate_before" />
+              <ControlButton
+                v-if="jobSearchFiltered.length > 5 && page + 5 < jobSearchFiltered.length"
+                @click="page += 5"
+                icon="navigate_next"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -71,6 +108,7 @@ import SearchInput from '../components/SearchInput.vue';
 import CheckBox from '../components/CheckBox.vue';
 import RadioButton from '../components/RadioButton.vue';
 import SearchButton from '../components/SearchButton.vue';
+import ControlButton from '../components/ControlButton.vue';
 
 type jobData = {
   id: string;
@@ -91,6 +129,7 @@ const Home = defineComponent({
     SearchButton,
     CheckBox,
     RadioButton,
+    ControlButton,
   },
 
   data() {
@@ -109,19 +148,95 @@ const Home = defineComponent({
       loading: true,
       errored: false,
       page: 0,
-      location: 'Berlin',
+      location: '',
+      description: '',
+      isFullTime: false,
     };
   },
 
-  methods: {},
+  methods: {
+    currentPage(num: number) {
+      const page = (num + 5) / 5;
+      return page;
+    },
+
+    totalPageCount(num: number) {
+      const count = Math.ceil(num / 5);
+      return count;
+    },
+
+    locationSearch(obj: jobData[]) {
+      return obj.filter((item) => {
+        if (item.location.toLowerCase().includes(this.location.toLowerCase())) {
+          return item;
+        }
+        return '';
+      });
+    },
+
+    descriptionSearch(obj: jobData[]) {
+      return obj.filter((item) => {
+        if (
+          item.company.toLowerCase().includes(this.description.toLowerCase())
+          || item.title.toLowerCase().includes(this.description.toLowerCase())
+        ) {
+          return item;
+        }
+        return '';
+      });
+    },
+
+    fullTimeSearch(obj: jobData[]) {
+      if (this.isFullTime) {
+        return obj.filter((item) => item.type.toLowerCase() === 'full time');
+      }
+      return obj;
+    },
+  },
 
   computed: {
-    locationSearch(): jobData[] {
-      return this.data.filter((item) => item.location.includes(this.location));
+    jobSearchFiltered(): jobData[] {
+      // Description + fullTime + Location search
+      if (this.isFullTime && this.description && this.location) {
+        return this.descriptionSearch(this.locationSearch(this.fullTimeSearch(this.data)));
+      }
+
+      // Location + description search
+      if (this.location && this.description) {
+        return this.descriptionSearch(this.locationSearch(this.data));
+      }
+
+      // Location + fullTime search
+      if (this.location && this.isFullTime) {
+        return this.locationSearch(this.fullTimeSearch(this.data));
+      }
+
+      // Description + fullTime search
+      if (this.isFullTime && this.description) {
+        return this.descriptionSearch(this.fullTimeSearch(this.data));
+      }
+
+      // Location search
+      if (this.location) {
+        return this.locationSearch(this.data);
+      }
+
+      // Description search
+      if (this.description) {
+        return this.descriptionSearch(this.data);
+      }
+
+      // Full Time search
+      if (this.isFullTime) {
+        return this.fullTimeSearch(this.data);
+      }
+
+      // default All
+      return this.data;
     },
 
     pageContent(): jobData[] {
-      return this.data.filter((item, index: number) => {
+      return this.jobSearchFiltered.filter((item, index: number) => {
         if (index >= this.page && index < this.page + 5) {
           return item;
         }
@@ -186,7 +301,7 @@ export default Home;
 }
 
 .icon {
-    color:#cccccc;
+  color: #cccccc;
 }
 
 .location {
@@ -209,4 +324,14 @@ export default Home;
   color: #b9bdcf;
 }
 
+.pageControls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.controls {
+  display: flex;
+}
 </style>
