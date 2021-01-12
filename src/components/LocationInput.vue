@@ -28,7 +28,7 @@ export default Component;
 
 <style lang="scss" scoped>
 .input {
-  padding: 10px;
+  padding: 7px;
   background-color: #ffffff;
   border: none;
   border-radius: 4px;
