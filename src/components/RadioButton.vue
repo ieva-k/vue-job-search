@@ -1,6 +1,6 @@
 <template>
   <label :class="$style.radio">
-    <input type="radio" :name="name"/>
+    <input type="radio" :name="name" :value="value" />
     {{ label }}
   </label>
 </template>
@@ -12,6 +12,7 @@ const Component = defineComponent({
   props: {
     label: String,
     name: String,
+    value: String,
   },
 });
 export default Component;
@@ -25,6 +26,7 @@ export default Component;
   }
 
   .radio > input {
+    margin: 0;
     margin-right: 10px;
   }
 </style>

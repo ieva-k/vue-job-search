@@ -3,9 +3,8 @@
       :class="$style.input"
       type="text"
       :placeholder="placeholder"
-      :model="inputValue"
-      @input="$emit('inputValue', $event.target.value)"
-      @keyup.enter="inputValue"
+      :value="inputValue"
+      @input="$emit('update:inputValue', $event.target.value)"
     />
 </template>
 
