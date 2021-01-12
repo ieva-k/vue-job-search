@@ -165,32 +165,25 @@ const Home = defineComponent({
       return count;
     },
 
-    locationSearch(obj: jobData[]) {
-      return obj.filter((item) => {
-        if (item.location.toLowerCase().includes(this.location.toLowerCase())) {
-          return item;
-        }
-        return '';
-      });
+    locationSearch(ob: jobData[]) {
+      return ob.filter((item) => item.location.toLowerCase().includes(this.location.toLowerCase()));
     },
 
-    descriptionSearch(obj: jobData[]) {
-      return obj.filter((item) => {
-        if (
-          item.company.toLowerCase().includes(this.description.toLowerCase())
-          || item.title.toLowerCase().includes(this.description.toLowerCase())
-        ) {
-          return item;
-        }
-        return '';
-      });
+    includesDescript(string: string) {
+      return string.toLowerCase().includes(this.description.toLowerCase());
     },
 
-    fullTimeSearch(obj: jobData[]) {
+    descriptionSearch(ob: jobData[]) {
+      return ob.filter(
+        ({ company, title }) => this.includesDescript(company) || this.includesDescript(title),
+      );
+    },
+
+    fullTimeSearch(ob: jobData[]) {
       if (this.isFullTime) {
-        return obj.filter((item) => item.type.toLowerCase() === 'full time');
+        return ob.filter((item) => item.type.toLowerCase() === 'full time');
       }
-      return obj;
+      return ob;
     },
   },
 
@@ -200,37 +193,30 @@ const Home = defineComponent({
       if (this.isFullTime && this.description && this.location) {
         return this.descriptionSearch(this.locationSearch(this.fullTimeSearch(this.data)));
       }
-
       // Location + description search
       if (this.location && this.description) {
         return this.descriptionSearch(this.locationSearch(this.data));
       }
-
       // Location + fullTime search
       if (this.location && this.isFullTime) {
         return this.locationSearch(this.fullTimeSearch(this.data));
       }
-
       // Description + fullTime search
       if (this.isFullTime && this.description) {
         return this.descriptionSearch(this.fullTimeSearch(this.data));
       }
-
       // Location search
       if (this.location) {
         return this.locationSearch(this.data);
       }
-
       // Description search
       if (this.description) {
         return this.descriptionSearch(this.data);
       }
-
       // Full Time search
       if (this.isFullTime) {
         return this.fullTimeSearch(this.data);
       }
-
       // default All
       return this.data;
     },
