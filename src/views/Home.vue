@@ -11,11 +11,43 @@
       </div>
     </div>
   </section>
+
   <section v-else>
     <div class="container container-fluid">
       <div v-if="loading">Loading...</div>
       <div v-else class="row">
-        <div class="col-xs-12 col-md-4"></div>
+        <div class="col-xs-12">
+          <div class="img-wrapper">
+            <div class="searchBar">
+              <i class="material-icons">work_outline</i>
+              <SearchInput class="input" />
+              <SearchButton label="Search" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-md-4">
+          <div class="listItems">
+            <CheckBox label="Full time" />
+          </div>
+          <div>
+            <h4 class="locationHeading">LOCATION</h4>
+            <div class="location">
+              <i class="material-icons">public</i>
+              <LocationInput class="input" />
+            </div>
+          </div>
+          <div class="listItems">
+            <RadioButton label="London" />
+            <br />
+            <RadioButton label="Amsterdam" />
+            <br />
+            <RadioButton label="New York" />
+            <br />
+            <RadioButton label="Berlin" />
+          </div>
+        </div>
         <div class="col-xs-12 col-md-8">
           <JobCard
             v-for="item in data"
@@ -38,7 +70,11 @@
 import { defineComponent } from 'vue';
 import axios from 'axios';
 import JobCard from '../components/JobCard.vue';
-import SearchBar from '../components/SearchBar.vue';
+import SearchInput from '../components/SearchInput.vue';
+import CheckBox from '../components/CheckBox.vue';
+import RadioButton from '../components/RadioButton.vue';
+import SearchButton from '../components/SearchButton.vue';
+import LocationInput from '../components/LocationInput.vue';
 
 type jobData = {
   id: string;
@@ -50,16 +86,18 @@ type jobData = {
   type: string;
 };
 
-type Data = {
-  data: jobData[];
-  loading: boolean;
-  errored: boolean;
-  page: number;
-  location: string;
-};
-
 const Home = defineComponent({
   name: 'Home',
+
+  components: {
+    JobCard,
+    SearchInput,
+    SearchButton,
+    CheckBox,
+    RadioButton,
+    LocationInput,
+  },
+
   data() {
     return {
       data: [
@@ -79,10 +117,7 @@ const Home = defineComponent({
       location: 'Berlin',
     };
   },
-  components: {
-    SearchBar,
-    JobCard,
-  },
+
   methods: {},
 
   computed: {
@@ -101,19 +136,12 @@ const Home = defineComponent({
   },
 
   mounted() {
-    const accessPoint = 'https://cors-anywhere.herokuapp.com';
-    // // const url = 'https://jobs.github.com/positions.json';
-    // return axios.get(`${accessPoint}/https://jobs.github.com/positions.json?`);
     axios
       .get('https://raw.githubusercontent.com/mart-j/jobs/main/positions.json')
-      // .get(`${accessPoint}/https://jobs.github.com/positions.json?`)
-      // .get('https://jobs.github.com/positions.json?')
       .then((response) => {
         this.data = response.data;
-        console.log(response.data);
       })
       .catch((error) => {
-        console.log(error);
         this.errored = true;
       })
       .finally(() => {
