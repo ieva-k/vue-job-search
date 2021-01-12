@@ -1,0 +1,63 @@
+$darkblue: rgb(51, 70, 128);
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(246, 247, 251);
+    color: $darkblue;
+}
+
+a {
+    color: rgb(30, 134, 255);
+    text-decoration: none;
+    word-wrap: break-word;
+}
+
+p {
+    margin: 0;
+    margin-bottom: 16px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+h2 {
+    margin: 0;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+// helpers
+
+.flex-align {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+  
+.margin-bottom--16 {
+    margin-bottom: 16px;
+}
+  
+.margin-bottom--32 {
+    margin-bottom: 32px;
+}
+
+.margin-left--16 {
+    margin-left: 16px;
+}
+
+.margin-right--28 {
+    margin-right: 28px;
+}

@@ -1,41 +1,30 @@
 <template>
-  <div id="nav"><router-link to="/">Home</router-link></div>
-
-  <button @click="redirect">Redirect</button>
-  <button @click="back">Go Back</button>
-  <button @click="forward">Go forward</button>
-
+  <div id="nav">
+    <router-link to="/">
+      <Navigation />
+    </router-link>
+  </div>
   <router-view />
-  <div id="app"></div>
+  <Footer text="Your name @ DevChallenges.io"/>
 </template>
 
 <script>
-export default {
-  methods: {
-    redirect() {
-      this.$router.push({ name: 'Home' });
-    },
-    back() {
-      this.$router.go(-1);
-    },
-    forward() {
-      this.$router.go(1);
-    },
+import { defineComponent } from 'vue';
+import Navigation from './components/Navigation.vue';
+import Footer from './components/Footer.vue';
+
+const App = defineComponent({
+  components: {
+    Navigation,
+    Footer,
   },
-};
+});
+
+export default App;
 </script>
 
 <style lang="scss">
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+#nav a {
+    color: rgb(40, 37, 56);
   }
-}
 </style>
